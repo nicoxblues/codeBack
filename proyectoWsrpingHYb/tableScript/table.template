@@ -1,0 +1,108 @@
+CREATE TABLE contratoalquiler
+(
+    contratoalquilerid SERIAL PRIMARY KEY NOT NULL,
+    inmuebleid INT NOT NULL,
+    inquilinoid INT NOT NULL,
+    fechainicio DATE NOT NULL,
+    fechafin DATE NOT NULL,
+    renovaciontasa SMALLINT,
+    precioalquiler NUMERIC(10) NOT NULL,
+    tasa NUMERIC(5,2) NOT NULL,
+    comision NUMERIC(5,2)
+);
+CREATE TABLE contratoalquiler_contratoalquilerid_seq
+(
+    sequence_name VARCHAR NOT NULL,
+    last_value BIGINT NOT NULL,
+    start_value BIGINT NOT NULL,
+    increment_by BIGINT NOT NULL,
+    max_value BIGINT NOT NULL,
+    min_value BIGINT NOT NULL,
+    cache_value BIGINT NOT NULL,
+    log_cnt BIGINT NOT NULL,
+    is_cycled BOOL NOT NULL,
+    is_called BOOL NOT NULL
+);
+CREATE TABLE entidadpersona
+(
+    entidadpersonaid SERIAL PRIMARY KEY NOT NULL,
+    nombre VARCHAR(150),
+    apellido VARCHAR(150) NOT NULL,
+    dni VARCHAR(15) NOT NULL,
+    nacionalidad INT NOT NULL,
+    telefeno VARCHAR(20),
+    tipo INT NOT NULL,
+    codigo VARCHAR(50) NOT NULL
+);
+CREATE TABLE entidadpersona_entidadpersonaid_seq
+(
+    sequence_name VARCHAR NOT NULL,
+    last_value BIGINT NOT NULL,
+    start_value BIGINT NOT NULL,
+    increment_by BIGINT NOT NULL,
+    max_value BIGINT NOT NULL,
+    min_value BIGINT NOT NULL,
+    cache_value BIGINT NOT NULL,
+    log_cnt BIGINT NOT NULL,
+    is_cycled BOOL NOT NULL,
+    is_called BOOL NOT NULL
+);
+CREATE TABLE inmueble
+(
+    inmuebleid SERIAL PRIMARY KEY NOT NULL,
+    tipo INT NOT NULL,
+    superficie INT NOT NULL,
+    ambientes INT NOT NULL,
+    piso SMALLINT NOT NULL,
+    dirreccion VARCHAR(150) NOT NULL,
+    precioalquiler NUMERIC(8) NOT NULL,
+    precioventa NUMERIC(8) NOT NULL,
+    reservado BIT NOT NULL,
+    propietarioid INT NOT NULL
+);
+CREATE TABLE inmueble_inmuebleid_seq
+(
+    sequence_name VARCHAR NOT NULL,
+    last_value BIGINT NOT NULL,
+    start_value BIGINT NOT NULL,
+    increment_by BIGINT NOT NULL,
+    max_value BIGINT NOT NULL,
+    min_value BIGINT NOT NULL,
+    cache_value BIGINT NOT NULL,
+    log_cnt BIGINT NOT NULL,
+    is_cycled BOOL NOT NULL,
+    is_called BOOL NOT NULL
+);
+CREATE TABLE usuario
+(
+    usuarioid SERIAL PRIMARY KEY NOT NULL,
+    codigo VARCHAR(50) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    activo BIT NOT NULL
+);
+CREATE TABLE usuario_usuarioid_seq
+(
+    sequence_name VARCHAR NOT NULL,
+    last_value BIGINT NOT NULL,
+    start_value BIGINT NOT NULL,
+    increment_by BIGINT NOT NULL,
+    max_value BIGINT NOT NULL,
+    min_value BIGINT NOT NULL,
+    cache_value BIGINT NOT NULL,
+    log_cnt BIGINT NOT NULL,
+    is_cycled BOOL NOT NULL,
+    is_called BOOL NOT NULL
+);
+ALTER TABLE contratoalquiler ADD FOREIGN KEY (inquilinoid) REFERENCES entidadpersona (entidadpersonaid);
+ALTER TABLE contratoalquiler ADD FOREIGN KEY (inmuebleid) REFERENCES inmueble (inmuebleid);
+CREATE UNIQUE INDEX unique_contratoalquilerid ON contratoalquiler (contratoalquilerid);
+CREATE UNIQUE INDEX unique_dni ON entidadpersona (dni);
+CREATE UNIQUE INDEX unique_entidadpersonaid ON entidadpersona (entidadpersonaid);
+ALTER TABLE inmueble ADD FOREIGN KEY (propietarioid) REFERENCES entidadpersona (entidadpersonaid);
+CREATE UNIQUE INDEX unique_inmuebleid ON inmueble (inmuebleid);
+CREATE UNIQUE INDEX unique_codigo ON usuario (codigo);
+CREATE UNIQUE INDEX unique_usuarioid ON usuario (usuarioid);
+/*
+hoasda
+
+*/
